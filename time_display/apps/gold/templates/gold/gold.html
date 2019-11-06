@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'gold/css/style.css'%}"> 
+</head> 
+<body>
+  <h2>Gold: {{request.session.gold}}</h2>
+  {% for location in locations %}
+    <div class='location_box'>
+      <h2>{{location.0}}</h2>
+      <p>{{location.1}}</p>
+      <form action= '/gold_app/process_gold' method='post'>
+        {% csrf_token %}
+        <input type='hidden' name='which_form' value={{location.0}}>
+        <button>Get money</button>
+      </form>
+    </div>
+  {% endfor %}
+  <form id='reset' action='/gold_app/reset' method='post'>
+    {% csrf_token %}
+   <button type='submit' form='reset'>Reset</button>
+  </form>
+  <h2>History:</h2>
+  <div class="history_box">
+    {{request.session.history|safe}}
+  </div>
+  </body>
+
+</html>
